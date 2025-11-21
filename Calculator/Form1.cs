@@ -96,75 +96,99 @@ namespace Calculator
         {
             // -NAM //
             // Xử lý căn bậc x của y trước, ưu tiên nếu đang ở chế độ này
-            if (isXRootYMode)
-            {
-                if (double.TryParse(txtDisplay.Text, out double y))
-                {
-                    if (y < 0 && xRootY_x % 2 == 0)
-                    {
-                        MessageBox.Show("Không thể tính căn bậc chẵn của số âm");
-                        isXRootYMode = false;
-                        return;
-                    }
-                    double result = Math.Pow(y, 1.0 / xRootY_x);
-                    txtDisplay.Text = result.ToString();
-                    isXRootYMode = false; // Reset trạng thái
-                    return; // Đã xử lý xong, không thực hiện các phép tính khác
-                }
-                else
-                {
-                    MessageBox.Show("Vui lòng nhập số hợp lệ cho y");
-                    return;
-                }
-            }
-            // -NAM//
-
-            // -Kha //
-
-            // các phép tính thông thường
-            if (option == null || option == "")
-                return;
             try
             {
-                if (txtDisplay.Text != "")
-                    num2 = double.Parse(txtDisplay.Text);
-                switch (option)
+                if (string.IsNullOrEmpty(txtDisplay.Text))
                 {
-                    case "+":
-                        result = num1 + num2;
-                        break;
-
-                    case "-":
-                        result = num1 - num2;
-                        break;
-
-                    case "*":
-                        result = num1 * num2;
-                        break;
-
-                    case "/":
-                        if (num2 == 0)
-                        {
-                            MessageBox.Show("Không thể chia cho 0");
-                            return;
-                        }
-                        result = num1 / num2;
-                        break;
-
-                    case "pow":
-                        result = Math.Pow(num1, num2);
-                        break;
-
-                    case "square":
-                        result = num1 * num1;
-                        break;
+                    MessageBox.Show("Vui lòng nhập số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-                txtDisplay.Text = result.ToString();
-                num1 = result;   // cho phép bấm tiếp
+
+                // Xử lý trường hợp txtDisplay.Text chứa "PI" và chưa chọn phép toán
+                if ((option == null || option == "") && txtDisplay.Text.ToUpper().Contains("PI"))
+                {
+                    string text = txtDisplay.Text.ToUpper().Replace("PI", Math.PI.ToString());
+
+                    if (double.TryParse(text, out double val))
+                    {
+                        txtDisplay.Text = val.ToString();
+                        option = "";  // Không tiếp tục xử lý phép toán
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Biểu thức chứa PI chưa được hỗ trợ", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+
+                // Xử lý căn bậc x của y (ưu tiên)
+                if (isXRootYMode)
+                {
+                    double y = Convert.ToDouble(txtDisplay.Text);
+                    double result = CalculateXRootY(xRootY_x, y);
+                    txtDisplay.Text = result.ToString();
+                    isXRootYMode = false;
+                    return;
+                }
+
+                // -NAM//
+
+                // -Kha //
+
+                // các phép tính thông thường
+                if (option == null || option == "")
+                return;
+                try
+                {
+                    if (txtDisplay.Text != "")
+                        num2 = double.Parse(txtDisplay.Text);
+                    switch (option)
+                    {
+                        case "+":
+                            result = num1 + num2;
+                            break;
+
+                        case "-":
+                            result = num1 - num2;
+                            break;
+
+                        case "*":
+                            result = num1 * num2;
+                            break;
+
+                        case "/":
+                            if (num2 == 0)
+                            {
+                                MessageBox.Show("Không thể chia cho 0");
+                                return;
+                            }
+                            result = num1 / num2;
+                            break;
+
+                        case "pow":
+                            result = Math.Pow(num1, num2);
+                            break;
+
+                        case "square":
+                            result = num1 * num1;
+                            break;
+
+                        case "xrooty":
+                            result = CalculateXRootY(num1, num2);
+                            break;
+                    }
+                    txtDisplay.Text = result.ToString();
+                    num1 = result;   // cho phép bấm tiếp
+                }
+                catch
+                {
+                    MessageBox.Show("Lỗi dữ liệu!");
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("Lỗi dữ liệu!");
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnClear_Click(object sender, EventArgs e)
@@ -237,6 +261,7 @@ namespace Calculator
         {
             Application.Exit();
         }
+
         // Hàm kiểm tra và parse số an toàn
         private bool TryParseInput(out double result)
         {
@@ -247,6 +272,7 @@ namespace Calculator
             }
             return true;
         }
+
         // Tính sin của giá trị nhập vào (đơn vị độ), chuyển độ sang radian trước khi tính
         private void btnSin_Click(object sender, EventArgs e)
         {
@@ -255,6 +281,7 @@ namespace Calculator
                 txtDisplay.Text = Math.Sin(val * Math.PI / 180).ToString();
             }
         }
+
         // Tính cos tương tự, giá trị nhập là độ
         private void btnCos_Click(object sender, EventArgs e)
         {
@@ -263,6 +290,7 @@ namespace Calculator
                 txtDisplay.Text = Math.Cos(val * Math.PI / 180).ToString();
             }
         }
+
         // Tính tan tương tự, giá trị nhập là độ
         private void btnTan_Click(object sender, EventArgs e)
         {
@@ -278,6 +306,7 @@ namespace Calculator
                 txtDisplay.Text = Math.Tan(val * Math.PI / 180).ToString();
             }
         }
+
         // Tính arcsin, kết quả trả về đơn vị độ
         private void btnSinInv_Click(object sender, EventArgs e)
         {
@@ -291,6 +320,7 @@ namespace Calculator
                 txtDisplay.Text = (Math.Asin(val) * 180 / Math.PI).ToString();
             }
         }
+
         // Tính arccos, kết quả trả về đơn vị độ
         private void btnCosInv_Click(object sender, EventArgs e)
         {
@@ -304,6 +334,7 @@ namespace Calculator
                 txtDisplay.Text = (Math.Acos(val) * 180 / Math.PI).ToString();
             }
         }
+
         // Tính arctan, kết quả trả về đơn vị độ
         private void btnTanInv_Click(object sender, EventArgs e)
         {
@@ -312,23 +343,47 @@ namespace Calculator
                 txtDisplay.Text = (Math.Atan(val) * 180 / Math.PI).ToString();
             }
         }
+
         // Tính căn bậc hai của giá trị nhập
         private void btnSqrt_Click(object sender, EventArgs e)
         {
-            if (TryParseInput(out double val))
+            try
             {
-                if (val < 0)
+                if (string.IsNullOrEmpty(txtDisplay.Text))
                 {
-                    MessageBox.Show("Không thể tính căn bậc hai của số âm");
+                    MessageBox.Show("Vui lòng nhập số!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-                txtDisplay.Text = Math.Sqrt(val).ToString();
+
+                if (!double.TryParse(txtDisplay.Text, out double number))
+                {
+                    MessageBox.Show("Giá trị nhập không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (number < 0)
+                {
+                    MessageBox.Show("Không thể tính căn bậc hai của số âm!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtDisplay.Text = "0";
+                    return;
+                }
+
+                double result = Math.Sqrt(number);
+                txtDisplay.Text = result.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtDisplay.Text = "0";
             }
         }
         // Biến lưu bậc căn x
         double xRootY_x = 0;
         // Biến trạng thái chờ nhập y
         bool isXRootYMode = false;
+        private string currentExpression = "";  // Ví dụ "sqrt19", "xrooty(3,8)" hoặc "1/15"
+        private bool isExpressionMode = false;  // Chế độ đang hiển thị biểu thức đặc biệt
+
         // Khi bấm nút x√y: nhập x, chờ nhập y
         private void btnXRootY_Click(object sender, EventArgs e)
         {
@@ -342,8 +397,35 @@ namespace Calculator
                 xRootY_x = x;
                 txtDisplay.Clear(); // Xóa để nhập y
                 isXRootYMode = true;
+                isExpressionMode = true;  // Bật chế độ biểu thức
+                currentExpression = $"xrooty({xRootY_x}, ?)";  // Chưa có y, dùng dấu ?
             }
         }
+
+        // Hàm tính căn bậc n: x√y = y^(1/x)
+        private double CalculateXRootY(double x, double y)
+        {
+            if (x == 0)
+            {
+                throw new DivideByZeroException("Không thể tính căn bậc 0!");
+            }
+
+            if (y < 0 && x % 2 == 0)
+            {
+                throw new ArgumentException("Không thể tính căn bậc chẵn của số âm!");
+            }
+
+            if (y < 0)
+            {
+                // Với căn bậc lẻ của số âm
+                return -Math.Pow(Math.Abs(y), 1.0 / x);
+            }
+            else
+            {
+                return Math.Pow(y, 1.0 / x);
+            }
+        }
+
         // Tính căn bậc ba của số nhập
         private void btnCubicRoot_Click(object sender, EventArgs e)
         {
@@ -352,6 +434,7 @@ namespace Calculator
                 txtDisplay.Text = Math.Pow(val, 1.0 / 3.0).ToString();
             }
         }
+
         // Tính logarit cơ số 10
         private void btnLog_Click(object sender, EventArgs e)
         {
@@ -365,6 +448,7 @@ namespace Calculator
                 txtDisplay.Text = Math.Log10(val).ToString();
             }
         }
+
         // Tính logarit tự nhiên (ln)
         private void btnLn_Click(object sender, EventArgs e)
         {
@@ -383,73 +467,119 @@ namespace Calculator
         {
             txtDisplay.Text = Math.PI.ToString();
         }
+
         // Hiển thị hằng số e (cơ số logarit tự nhiên)
         private void btnE_Click(object sender, EventArgs e)
         {
             txtDisplay.Text = Math.E.ToString();
         }
-        // Biến lưu trạng thái hiện tại (true: đang hiển thị thập phân, false: đang hiển thị phân số)
-        bool isDecimalDisplay = true;
+
+        // Biến lưu trạng thái chế độ hiển thị số thập phân hay phân số
+        private bool isDecimalDisplay = true;
+        // Biến lưu trạng thái chế độ Độ hay Radian (true = Degree, false = Radian)
+        private bool isDegreeMode = true;
+
+        // Biến lưu giá trị phân số gốc (chuỗi) khi người dùng nhập dạng phân số
+        private string fractionInput = null;
+
+        // Nút chuyển đổi phân số <-> số thập phân
         private void btnSD_Click(object sender, EventArgs e)
         {
-            string input = txtDisplay.Text.Trim();
-            // Nếu đang hiển thị phân số ("a/b") => đổi sang số thập phân
-            if (input.Contains("/"))
+            try
             {
-                var parts = input.Split('/');
-                if (parts.Length == 2)
+                string input = txtDisplay.Text.Trim();
+
+                if (isDecimalDisplay)
                 {
-                    if (!double.TryParse(parts[0], out double a) || !double.TryParse(parts[1], out double b))
+                    // Đang ở dạng số thập phân -> chuyển sang phân số
+
+                    if (!double.TryParse(input, out double val))
                     {
-                        MessageBox.Show("Phân số không hợp lệ");
+                        MessageBox.Show("Vui lòng nhập số hợp lệ");
                         return;
                     }
-                    if (b == 0)
-                    {
-                        MessageBox.Show("Mẫu số không được bằng 0");
-                        return;
-                    }
-                    double val = a / b;
-                    txtDisplay.Text = val.ToString();
-                    isDecimalDisplay = true; // Đang ở dạng thập phân sau khi chuyển đổi
+
+                    // Hàm chuyển decimal sang fraction đơn giản (gần đúng)
+                    var fraction = DecimalToFraction(val, 1e-6);
+
+                    txtDisplay.Text = $"{fraction.Item1}/{fraction.Item2}";
+
+                    fractionInput = txtDisplay.Text; // Lưu chuỗi phân số
+
+                    isDecimalDisplay = false;
                 }
                 else
                 {
-                    MessageBox.Show("Định dạng phân số sai");
+                    // Đang ở dạng phân số -> chuyển sang số thập phân
+                    if (fractionInput == null)
+                    {
+                        fractionInput = input;
+                    }
+
+                    var parts = fractionInput.Split('/');
+                    if (parts.Length == 2)
+                    {
+                        if (!double.TryParse(parts[0], out double a) || !double.TryParse(parts[1], out double b))
+                        {
+                            MessageBox.Show("Phân số không hợp lệ");
+                            return;
+                        }
+                        if (b == 0)
+                        {
+                            MessageBox.Show("Mẫu số không được bằng 0");
+                            return;
+                        }
+
+                        double val = a / b;
+                        txtDisplay.Text = val.ToString();
+
+                        isDecimalDisplay = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Định dạng phân số sai");
+                    }
                 }
             }
-            // Ngược lại: nếu đang ở số thập phân => chuyển về phân số tối giản
-            else
+            catch (Exception ex)
             {
-                if (!double.TryParse(input, out double val))
-                {
-                    MessageBox.Show("Vui lòng nhập số hợp lệ");
-                    return;
-                }
-                // Chuyển sang phân số tối giản (ví dụ 0.2 -> 1/5)
-                int denominator = 1000000; // Độ chính xác 1 triệu (có thể thay đổi nhỏ hơn nếu muốn)
-                int numerator = (int)Math.Round(val * denominator);
-
-                // Tìm ước chung lớn nhất
-                int gcd = GCD(numerator, denominator);
-                numerator /= gcd;
-                denominator /= gcd;
-
-                txtDisplay.Text = $"{numerator}/{denominator}";
-                isDecimalDisplay = false; // Đang ở phân số
+                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        // Hàm tìm ước chung lớn nhất của hai số dùng thuật toán Euclid
-        private int GCD(int a, int b)
+
+        // Hàm chuyển decimal sang fraction gần đúng (dùng thuật toán Euclid)
+        private Tuple<int, int> DecimalToFraction(double value, double epsilon)
         {
-            while (b != 0)
+            int sign = Math.Sign(value);
+            value = Math.Abs(value);
+
+            if (Math.Abs(value % 1) < epsilon)
+                return Tuple.Create(sign * (int)value, 1);
+
+            double numerator = 1;
+            double denominator = 0;
+            double prev_numerator = 0;
+            double prev_denominator = 1;
+            double x = value;
+            while (true)
             {
-                int t = b;
-                b = a % b;
-                a = t;
+                int a = (int)Math.Floor(x);
+                double temp_numerator = a * numerator + prev_numerator;
+                double temp_denominator = a * denominator + prev_denominator;
+                double approx = temp_numerator / temp_denominator;
+
+                if (Math.Abs(approx - value) < epsilon)
+                    return Tuple.Create(sign * (int)temp_numerator, (int)temp_denominator);
+
+                prev_numerator = numerator;
+                numerator = temp_numerator;
+                prev_denominator = denominator;
+                denominator = temp_denominator;
+
+                x = 1 / (x - a);
             }
-            return a;
         }
+
         // -Nam //
     }
 }
