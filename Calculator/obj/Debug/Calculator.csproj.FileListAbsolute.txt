@@ -19,13 +19,25 @@ D:\BaiTapTongHop\WIN FORM\17-11-2025\Calculator\Calculator\obj\Debug\Calculator.
 D:\BaiTapTongHop\WIN FORM\17-11-2025\Calculator\Calculator\obj\Debug\Calculator.exe
 D:\BaiTapTongHop\WIN FORM\17-11-2025\Calculator\Calculator\obj\Debug\Calculator.pdb
 D:\BaiTapTongHop\WIN FORM\17-11-2025\Calculator\Calculator\obj\Debug\Calculator.exe.config
-C:\Winform\Project CK\Main\Calculator\bin\Debug\Calculator.exe.config
-C:\Winform\Project CK\Main\Calculator\bin\Debug\Calculator.exe
-C:\Winform\Project CK\Main\Calculator\bin\Debug\Calculator.pdb
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.Form1.resources
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.Properties.Resources.resources
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.exe
-C:\Winform\Project CK\Main\Calculator\obj\Debug\Calculator.pdb
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\bin\Debug\Calculator.exe.config
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\bin\Debug\Calculator.exe
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\bin\Debug\Calculator.pdb
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.exe.config
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.Form1.resources
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.exe
+D:\BaiTapTongHop\WIN FORM\17-11-2025\-CK-WINFORM-\Calculator\obj\Debug\Calculator.pdb
+E:\Form\Calculator\Calculator\bin\Debug\Calculator.exe.config
+E:\Form\Calculator\Calculator\bin\Debug\Calculator.exe
+E:\Form\Calculator\Calculator\bin\Debug\Calculator.pdb
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.csproj.AssemblyReference.cache
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.exe.config
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.Form1.resources
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.Properties.Resources.resources
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.csproj.GenerateResource.cache
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.csproj.CoreCompileInputs.cache
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.exe
+E:\Form\Calculator\Calculator\obj\Debug\Calculator.pdb
