@@ -49,7 +49,7 @@
             this.btnSqrt = new System.Windows.Forms.Button();
             this.btnSquare = new System.Windows.Forms.Button();
             this.btnNegate = new System.Windows.Forms.Button();
-            this.btnInverse = new System.Windows.Forms.Button();
+            this.btnFraction = new System.Windows.Forms.Button();
             this.btnPercent = new System.Windows.Forms.Button();
             this.btnPow = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -351,19 +351,19 @@
             this.btnNegate.UseVisualStyleBackColor = false;
             this.btnNegate.Click += new System.EventHandler(this.btn_MathFunction_Click);
             // 
-            // btnInverse
+            // btnFraction
             // 
-            this.btnInverse.BackColor = System.Drawing.Color.Black;
-            this.btnInverse.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInverse.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnInverse.Location = new System.Drawing.Point(183, 383);
-            this.btnInverse.Margin = new System.Windows.Forms.Padding(2);
-            this.btnInverse.Name = "btnInverse";
-            this.btnInverse.Size = new System.Drawing.Size(56, 39);
-            this.btnInverse.TabIndex = 22;
-            this.btnInverse.Text = "1/x";
-            this.btnInverse.UseVisualStyleBackColor = false;
-            this.btnInverse.Click += new System.EventHandler(this.btn_MathFunction_Click);
+            this.btnFraction.BackColor = System.Drawing.Color.Black;
+            this.btnFraction.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFraction.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnFraction.Location = new System.Drawing.Point(183, 383);
+            this.btnFraction.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFraction.Name = "btnFraction";
+            this.btnFraction.Size = new System.Drawing.Size(56, 39);
+            this.btnFraction.TabIndex = 22;
+            this.btnFraction.Text = "x / y";
+            this.btnFraction.UseVisualStyleBackColor = false;
+            this.btnFraction.Click += new System.EventHandler(this.btnFraction_Click);
             // 
             // btnPercent
             // 
@@ -742,7 +742,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.btnPow);
             this.Controls.Add(this.btnPercent);
-            this.Controls.Add(this.btnInverse);
+            this.Controls.Add(this.btnFraction);
             this.Controls.Add(this.btnNegate);
             this.Controls.Add(this.btnSquare);
             this.Controls.Add(this.btnSqrt);
@@ -795,7 +795,7 @@
         private System.Windows.Forms.Button btnSqrt;
         private System.Windows.Forms.Button btnSquare;
         private System.Windows.Forms.Button btnNegate;
-        private System.Windows.Forms.Button btnInverse;
+        private System.Windows.Forms.Button btnFraction;
         private System.Windows.Forms.Button btnPercent;
         private System.Windows.Forms.Button btnPow;
         private System.Windows.Forms.Button button1;

@@ -259,60 +259,77 @@ namespace Calculator
         private void btnSD_Click(object sender, EventArgs e)
         {
             string input = txtDisplay.Text.Trim();
-            // Nếu đang hiển thị phân số ("a/b") => đổi sang số thập phân
+
+            if (string.IsNullOrEmpty(input) || input == "Error") return;
+
+            // --- TRƯỜNG HỢP 1: Đang hiển thị phân số (có dấu /) -> Đổi sang Thập phân ---
             if (input.Contains("/"))
             {
                 var parts = input.Split('/');
+
+                // Kiểm tra format a/b
                 if (parts.Length == 2)
                 {
-                    if (!double.TryParse(parts[0], out double a) || !double.TryParse(parts[1], out double b))
+                    // Dùng double.TryParse để tránh lỗi nếu người dùng nhập sai
+                    if (double.TryParse(parts[0], out double numerator) && double.TryParse(parts[1], out double denominator))
                     {
-                        MessageBox.Show("Phân số không hợp lệ");
-                        return;
+                        if (denominator == 0)
+                        {
+                            txtDisplay.Text = "Error"; // Không chia được cho 0
+                            return;
+                        }
+
+                        double result = numerator / denominator;
+                        txtDisplay.Text = result.ToString(); // Hiển thị dạng thập phân
+                        isDecimalDisplay = true;
                     }
-                    if (b == 0)
-                    {
-                        MessageBox.Show("Mẫu số không được bằng 0");
-                        return;
-                    }
-                    double val = a / b;
-                    txtDisplay.Text = val.ToString();
-                    isDecimalDisplay = true; // Đang ở dạng thập phân sau khi chuyển đổi
+                }
+            }
+            // --- TRƯỜNG HỢP 2: Đang hiển thị số thường -> Đổi sang Phân số tối giản ---
+            else
+            {
+                // BƯỚC QUAN TRỌNG: Thay thế dấu phẩy thành dấu chấm để C# luôn hiểu đúng
+                string standardInput = input.Replace(",", ".");
+
+                // Dùng InvariantCulture để ép kiểu: Bắt buộc dùng dấu chấm làm thập phân
+                if (!double.TryParse(standardInput, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double val))
+                {
+                    return; // Nếu vẫn lỗi thì thoát
+                }
+
+                // Logic tìm phân số (Giữ nguyên như cũ)
+                long denominator = 1000000;
+                long numerator = (long)Math.Round(val * denominator);
+                long commonDivisor = GCD(numerator, denominator);
+
+                numerator /= commonDivisor;
+                denominator /= commonDivisor;
+
+                // Hiển thị kết quả
+                if (denominator == 1)
+                {
+                    txtDisplay.Text = numerator.ToString();
                 }
                 else
                 {
-                    MessageBox.Show("Định dạng phân số sai");
+                    txtDisplay.Text = $"{numerator}/{denominator}";
                 }
-            }
-            // Ngược lại: nếu đang ở số thập phân => chuyển về phân số tối giản
-            else
-            {
-                if (!double.TryParse(input, out double val))
-                {
-                    MessageBox.Show("Vui lòng nhập số hợp lệ");
-                    return;
-                }
-                // Chuyển sang phân số tối giản (ví dụ 0.2 -> 1/5)
-                int denominator = 1000000; // Độ chính xác 1 triệu (có thể thay đổi nhỏ hơn nếu muốn)
-                int numerator = (int)Math.Round(val * denominator);
 
-                // Tìm ước chung lớn nhất
-                int gcd = GCD(numerator, denominator);
-                numerator /= gcd;
-                denominator /= gcd;
-
-                txtDisplay.Text = $"{numerator}/{denominator}";
-                isDecimalDisplay = false; // Đang ở phân số
+                isDecimalDisplay = false;
             }
         }
         // Hàm tìm ước chung lớn nhất của hai số dùng thuật toán Euclid
-        private int GCD(int a, int b)
+        private long GCD(long a, long b)
         {
+            // Lấy trị tuyệt đối để xử lý cả số âm
+            a = Math.Abs(a);
+            b = Math.Abs(b);
+
             while (b != 0)
             {
-                int t = b;
+                long temp = b;
                 b = a % b;
-                a = t;
+                a = temp;
             }
             return a;
         }
@@ -449,38 +466,28 @@ namespace Calculator
 
             if (btn.Text == "(")
             {
-                // --- FIX LỖI: Vừa mở máy bấm ( ra *( ---
-
-                // Logic: Chỉ tự thêm dấu nhân (*) khi:
-                // 1. Màn hình đang có số KHÁC 0 (ví dụ: 2( -> 2*( )
-                // 2. HOẶC biểu thức kết thúc bằng dấu đóng ngoặc (ví dụ: )( -> )*( )
 
                 if (txtDisplay.Text != "0")
                 {
-                    // Trường hợp: 5( -> thành 5*(
                     expression += txtDisplay.Text + "*(";
                 }
                 else if (expression.EndsWith(")"))
                 {
-                    // Trường hợp: (1+2)( -> thành (1+2)*(
                     expression += "*(";
                 }
                 else
-                {
-                    // Trường hợp bình thường: Vừa mở máy hoặc sau dấu cộng/trừ
+                { 
                     expression += "(";
                 }
 
                 lblHistory.Text = expression;
                 txtDisplay.Text = "0";
             }
-            else // Nút đóng ngoặc ')'
+                else 
             {
-                // Khi đóng ngoặc, nối số hiện tại vào
                 expression += txtDisplay.Text + ")";
                 lblHistory.Text = expression;
 
-                // Reset về 0 (Lưu ý: việc này gây ra lỗi số 0 ở nút phép toán, nhưng code ở mục 1 đã xử lý rồi)
                 txtDisplay.Text = "0";
             }
         }
@@ -531,15 +538,7 @@ namespace Calculator
                     result = Math.Pow(10, num);
                     break;
 
-                case "1/x": // Nghịch đảo
-                    if (num == 0)
-                    {
-                        txtDisplay.Text = "Cannot divide by 0";
-                        isResultCalculated = true;
-                        return;
-                    }
-                    result = 1 / num;
-                    break;
+              
                 case "³√x": // Căn bậc 3
                     result = Math.Pow(num, 1.0 / 3.0);
                     break;
@@ -601,11 +600,10 @@ namespace Calculator
                     return; // Nếu không khớp nút nào thì thoát
             }
 
-            // 3. Hiển thị kết quả
-            // Replace dấu chấm thành phẩy nếu cần (tùy máy tính)
+            
             txtDisplay.Text = result.ToString().Replace(".", ",");
 
-            // 4. Quan trọng: Đánh dấu đã tính xong để nhập số mới sẽ reset màn hình
+          
             isResultCalculated = true;
         }
 
@@ -658,5 +656,33 @@ namespace Calculator
                 }
             }
             }
+
+        private void btnFraction_Click(object sender, EventArgs e)
+        {
+            // 1. Nếu màn hình đang lỗi hoặc trống thì không làm gì hoặc reset về 0
+            if (txtDisplay.Text == "Error") return;
+
+            // 2. Kiểm tra logic: Một số chỉ được có 1 dấu chia '/'
+            // Nếu đã có dấu '/' rồi thì không cho nhập thêm để tránh lỗi dạng "1/2/"
+            if (txtDisplay.Text.Contains("/"))
+            {
+                return;
+            }
+
+            // 3. Nếu màn hình đang trống (hoặc vừa bấm dấu bằng), coi như là "0/"
+            if (string.IsNullOrEmpty(txtDisplay.Text) || isResultCalculated)
+            {
+                txtDisplay.Text = "0/";
+                isResultCalculated = false; // Đánh dấu là đang nhập liệu mới
+            }
+            else
+            {
+                // 4. Nối thêm dấu '/' vào sau số hiện tại
+                txtDisplay.Text += "/";
+            }
+
+            // 5. Cập nhật trạng thái hiển thị (để logic S<=>D biết)
+            isDecimalDisplay = false;
+        }
     }
 }
