@@ -5,10 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{4CCFC507-D48D-49F6-9B11-B2DD85874426}|Calculator\\Calculator.csproj|d:\\baitaptonghop\\win form\\17-11-2025\\-ck-winform-\\calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4CCFC507-D48D-49F6-9B11-B2DD85874426}|Calculator\\Calculator.csproj|solutionrelative:calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4CCFC507-D48D-49F6-9B11-B2DD85874426}|Calculator\\Calculator.csproj|D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{4CCFC507-D48D-49F6-9B11-B2DD85874426}|Calculator\\Calculator.csproj|solutionrelative:calculator\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,24 +22,12 @@
               "Title": "Form1.cs",
               "DocumentMoniker": "D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\Calculator\\Form1.cs",
               "RelativeDocumentMoniker": "Calculator\\Form1.cs",
-              "ToolTip": "D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\Calculator\\Form1.cs*",
-              "RelativeToolTip": "Calculator\\Form1.cs*",
-              "ViewState": "AgIAAKQAAAAAAAAAAAAowL8AAAAJAAAAAAAAAA==",
+              "ToolTip": "D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\Calculator\\Form1.cs",
+              "RelativeToolTip": "Calculator\\Form1.cs",
+              "ViewState": "AgIAALYBAAAAAAAAAAAUwOUBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-19T15:08:32.83Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Form1.cs [Design]",
-              "DocumentMoniker": "D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\Calculator\\Form1.cs",
-              "RelativeDocumentMoniker": "Calculator\\Form1.cs",
-              "ToolTip": "D:\\BaiTapTongHop\\WIN FORM\\17-11-2025\\-CK-WINFORM-\\Calculator\\Form1.cs [Design]*",
-              "RelativeToolTip": "Calculator\\Form1.cs [Design]*",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T15:08:29.921Z",
-              "EditorCaption": " [Design]"
             }
           ]
         }
